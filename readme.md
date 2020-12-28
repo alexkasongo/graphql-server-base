@@ -7,4 +7,8 @@
    "start": "ts-node src/index.ts"
    }
 4. Setup mikroORM: How we're going to interact with our database, create tables, add data, set data, select data. All our database needs
-5.
+5. yarn add @mikro-orm/cli @mikro-orm/core @mikro-orm/migrations @mikro-orm/postgresql pg
+6. Add mikro-orm config
+7. Setup migrations
+8. yarn add express apollo-server-express graphql type-graphql
+9. yarn add -D @types/express
