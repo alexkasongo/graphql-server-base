@@ -8,7 +8,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 @ObjectType() // Decorator which converts class to object type
 @Entity() //Decorator
 export class Post {
-  @Field()
+  @Field() // If not included, it will not be exposed by graphql
   @PrimaryKey()
   id!: number;
 
