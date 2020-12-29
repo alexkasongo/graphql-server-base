@@ -12,3 +12,4 @@
 7. Setup migrations
 8. yarn add express apollo-server-express graphql type-graphql
 9. yarn add -D @types/express
+   10.yarn add argon2
