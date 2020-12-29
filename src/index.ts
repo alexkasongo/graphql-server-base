@@ -39,6 +39,7 @@ const main = async () => {
         sameSite: "lax",
         secure: __PROD__, // cookie only works in https
       },
+      saveUninitialized: false, // don't create session by default even if we don't save any data
       secret: "keyboard cat", // best practice is to make this an environment variable
       resave: false,
     })

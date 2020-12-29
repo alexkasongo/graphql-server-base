@@ -8,6 +8,7 @@ import {
   Field,
   Ctx,
   ObjectType,
+  Query,
 } from "type-graphql";
 import argon2 from "argon2";
 
@@ -39,6 +40,18 @@ class UserResponse {
 
 @Resolver()
 export class UserResolver {
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { em, req }: MyContext) {
+    // you are not logged in
+    if (!req.session.userId) {
+      return null;
+    }
+
+    // if logged in fetch user and return user
+    const user = await em.findOne(User, { id: req.session.userId });
+    return user;
+  }
+
   // REGISTER USER
   @Mutation(() => UserResponse)
   async register(
@@ -99,7 +112,7 @@ export class UserResolver {
   @Mutation(() => UserResponse)
   async login(
     @Arg("options") options: UsernamePasswordInput,
-    @Ctx() { em }: MyContext
+    @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     const user = await em.findOne(User, {
       username: options.username.toLocaleLowerCase(),
@@ -127,6 +140,9 @@ export class UserResolver {
         ],
       };
     }
+
+    req.session.userId = user.id;
+    // req.session.userId = user.id // we can store properties on the session object
 
     return {
       user,
