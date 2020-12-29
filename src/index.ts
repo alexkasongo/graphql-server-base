@@ -12,7 +12,7 @@ import { UserResolver } from "./resolvers/user";
 import redis from "redis";
 import session from "express-session";
 import connectReddis from "connect-redis";
-import { MyContext } from "./types";
+import cors from "cors";
 
 const main = async () => {
   // create database
@@ -25,6 +25,12 @@ const main = async () => {
   // CONNECT TO REDDIS
   const RedisStore = connectReddis(session);
   const redisClient = redis.createClient();
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  ); // add CORS origin using CORS middleware else it defaults to *
 
   app.use(
     session({
@@ -52,10 +58,13 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }): MyContext => ({ em: orm.em, req, res }), // special object that is accesible by all resolvers
+    context: ({ req, res }) => ({ em: orm.em, req, res }), // special object that is accesible by all resolvers
   });
 
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
 
   app.listen(4444, () => {
     console.log(`server started ib localhost: 4444 🌎`);
