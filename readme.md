@@ -13,6 +13,6 @@
 8. yarn add express apollo-server-express graphql type-graphql
 9. yarn add -D @types/express
 10. yarn add argon2
-11. yarn add redis connect-redis express-session
+11. yarn add redis connect-redis express-session @types/redis @types/express-session @types/connect-redis
     Store session in redis because it is fast. Reddis is an in memory database but we could also use postgresql, mongodb etc
     On every request we're going to check if the user is logged in
