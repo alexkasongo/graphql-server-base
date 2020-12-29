@@ -1,6 +1,5 @@
-
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
 // first database table
 // we are using type graphql which works great with class decorators
@@ -13,15 +12,14 @@ export class Post {
   id!: number;
 
   @Field(() => String)
-  @Property({ type: 'date' })
+  @Property({ type: "date" })
   createdAt = new Date();
 
   @Field(() => String)
-  @Property({ type: 'date', onUpdate: () => new Date() })
+  @Property({ type: "date", onUpdate: () => new Date() })
   updatedAt = new Date();
 
   @Field()
-  @Property({ type: 'text'})
+  @Property({ type: "text" })
   title!: string;
-
 }
