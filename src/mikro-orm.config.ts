@@ -9,7 +9,7 @@ export default {
         pattern: /^[\w-]+\d+\.[tj]s$/, // regex pattern for the migration files
     },
     entities: [Post],
-    dbName: 'reddit',
+    dbName: 'reddit', // database, we can change the database here
     type: 'postgresql',
     // log what sql is being executed under the hood, should only be true in dev
     debug: !__PROD__

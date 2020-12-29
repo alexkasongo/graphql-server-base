@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { Resolver, Query, Ctx, Arg, Int, Mutation } from 'type-graphql'
 import { Post } from '../entities/Posts'
 import { MyContext } from '../types'
