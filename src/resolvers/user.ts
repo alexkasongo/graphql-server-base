@@ -11,7 +11,7 @@ import {
   Query,
 } from "type-graphql";
 import argon2 from "argon2";
-import { COOKIE_NAME } from "src/constants";
+import { COOKIE_NAME } from "../constants";
 
 @InputType()
 class UsernamePasswordInput {
@@ -164,6 +164,7 @@ export class UserResolver {
           resolve(false);
           return;
         }
+        resolve(true);
       })
     );
   }
