@@ -15,6 +15,7 @@ import connectReddis from "connect-redis";
 import cors from "cors";
 
 const main = async () => {
+  // sendEmail("bob@bob.com", "Hey buddy 💋"); // when server starts up send email to whoever we want to
   // create database
   const orm = await MikroORM.init(microConfig); // connect to database
   await orm.getMigrator().up(); // automatically run migrations

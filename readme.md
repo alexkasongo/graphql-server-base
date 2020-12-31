@@ -16,3 +16,5 @@
 11. yarn add redis connect-redis express-session @types/redis @types/express-session @types/connect-redis
     Store session in redis because it is fast. Reddis is an in memory database but we could also use postgresql, mongodb etc
     On every request we're going to check if the user is logged in
+12. yarn add nodemailer @types/nodemailer
+    we'll be using this to setup forgot password and it allows us to send out test emails in development
