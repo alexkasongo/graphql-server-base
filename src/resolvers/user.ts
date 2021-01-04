@@ -53,9 +53,9 @@ export class UserResolver {
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     // VALIDATE
-    const response = validateRegister(options);
-    if (response) {
-      return response;
+    const errors = validateRegister(options);
+    if (errors) {
+      return { errors };
     }
 
     const hashedPassword = await argon2.hash(options.password);
