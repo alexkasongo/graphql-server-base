@@ -16,6 +16,8 @@ import { COOKIE_NAME } from "../constants";
 @InputType()
 class UsernamePasswordInput {
   @Field()
+  email: string;
+  @Field()
   username: string;
   @Field()
   password: string;
@@ -60,6 +62,17 @@ export class UserResolver {
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
     // ERROR HANDLING
+    if (options.email.includes("@")) {
+      return {
+        errors: [
+          {
+            field: "email",
+            message: "invalid email",
+          },
+        ],
+      };
+    }
+
     if (options.username.length <= 2) {
       return {
         errors: [
@@ -86,6 +99,9 @@ export class UserResolver {
     const user = em.create(User, {
       username: options.username,
       password: hashedPassword,
+      email: options.email,
+      created_at: new Date(),
+      updated_at: new Date(),
     });
     // ERROR HANDLING
     try {
@@ -117,12 +133,18 @@ export class UserResolver {
   // LOGIN USER
   @Mutation(() => UserResponse)
   async login(
-    @Arg("options") options: UsernamePasswordInput,
+    @Arg("usernameOrEmail") usernameOrEmail: string,
+    @Arg("password") password: string,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
-    const user = await em.findOne(User, {
-      username: options.username.toLocaleLowerCase(),
-    });
+    const user = await em.findOne(
+      User,
+      usernameOrEmail.includes("@")
+        ? {
+            email: usernameOrEmail,
+          }
+        : { username: usernameOrEmail } // validate email address
+    );
     // ERROR HANDLING
     if (!user) {
       return {
@@ -134,7 +156,7 @@ export class UserResolver {
         ],
       };
     }
-    const valid = await argon2.verify(user.password, options.password);
+    const valid = await argon2.verify(user.password, password);
     // ERROR HANDLING
     if (!valid) {
       return {

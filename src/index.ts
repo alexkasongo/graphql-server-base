@@ -21,7 +21,6 @@ const main = async () => {
   const orm = await MikroORM.init(microConfig); // connect to database
   // await orm.em.nativeDelete(User, {});
   // await orm.getMigrator().up(); // automatically run migrations
-  await orm.getMigrator().up();
 
   // create server
   const app = express(); // create an express app

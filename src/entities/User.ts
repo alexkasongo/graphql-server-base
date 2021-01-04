@@ -23,6 +23,10 @@ export class User {
   @Property({ type: "text", unique: true }) // usernames must be unique
   username!: string;
 
+  @Field()
+  @Property({ type: "text", unique: true }) // usernames must be unique
+  email!: string;
+
   @Property({ type: "text" }) // no field
   password!: string;
 }
