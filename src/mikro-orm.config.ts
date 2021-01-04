@@ -15,16 +15,3 @@ export default {
   // log what sql is being executed under the hood, should only be true in dev
   debug: !__PROD__,
 } as Parameters<typeof MikroORM.init>[0];
-
-// export default {
-//   migrations:{
-//     path: path.join(__dirname, "./migrations"),
-//     pattern: /^[\w-]+\d+\.[tj]s$/,
-//   },
-//   entities: [],
-//   dbName: "",
-//   user: "(database username)",
-//   password: "(databse password)",
-//   type: "(database type)"
-//   debug: !__prod__
-// } as Parameters<typeof MikroORM.init>[0];

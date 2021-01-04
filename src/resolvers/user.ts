@@ -4,7 +4,6 @@ import {
   Resolver,
   Mutation,
   Arg,
-  InputType,
   Field,
   Ctx,
   ObjectType,
@@ -12,16 +11,8 @@ import {
 } from "type-graphql";
 import argon2 from "argon2";
 import { COOKIE_NAME } from "../constants";
-
-@InputType()
-class UsernamePasswordInput {
-  @Field()
-  email: string;
-  @Field()
-  username: string;
-  @Field()
-  password: string;
-}
+import { UsernamePasswordInput } from "./UsernamePasswordInput";
+import { validateRegister } from "../utils/validateRegister";
 
 // ERROR OBJECT
 @ObjectType()
@@ -61,38 +52,10 @@ export class UserResolver {
     @Arg("options") options: UsernamePasswordInput,
     @Ctx() { em, req }: MyContext
   ): Promise<UserResponse> {
-    // ERROR HANDLING
-    if (options.email.includes("@")) {
-      return {
-        errors: [
-          {
-            field: "email",
-            message: "invalid email",
-          },
-        ],
-      };
-    }
-
-    if (options.username.length <= 2) {
-      return {
-        errors: [
-          {
-            field: "username",
-            message: "length must be greater than 2.",
-          },
-        ],
-      };
-    }
-
-    if (options.password.length <= 3) {
-      return {
-        errors: [
-          {
-            field: "password",
-            message: "length must be greater than 3.",
-          },
-        ],
-      };
+    // VALIDATE
+    const response = validateRegister(options);
+    if (response) {
+      return response;
     }
 
     const hashedPassword = await argon2.hash(options.password);
