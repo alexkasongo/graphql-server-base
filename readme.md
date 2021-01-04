@@ -18,3 +18,4 @@
     On every request we're going to check if the user is logged in
 12. yarn add nodemailer @types/nodemailer
     we'll be using this to setup forgot password and it allows us to send out test emails in development
+13. yarn add uuid ioredis
